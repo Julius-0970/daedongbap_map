@@ -86,6 +86,33 @@ def login():
     finally:
         connection.close()
 
+# 로그아웃 라우트
+@app.route('/logout', methods=['POST'])
+def logout():
+    if 'user_id' in session:
+        session.pop('user_id')
+        return jsonify({'message': '로그아웃되었습니다.'}), 200
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
+# 회원탈퇴 라우트
+@app.route('/delete_user', methods=['POST'])
+def delete_user():
+    user_id = session.get('user_id')
+    if user_id : # 로그인 상태에서만 회원탈퇴를 진행하기 위함.
+        connection = connect_db()
+        try:
+            with connection.cursor() as cursor:
+                delete_query = "DELETE FROM user WHERE user_id = %s"
+                cursor.execute(delete_query, (user_id,))
+                connection.commit()
+
+                return jsonify({'message': '회원 탈퇴가 완료되었습니다.'}), 200
+        finally:
+            connection.close()
+
+    
 
 if __name__ == '__main__':
     app.run(debug=True)
