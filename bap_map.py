@@ -1,133 +1,92 @@
+from flask import Flask, request, jsonify
 import pymysql
 
-def access_menu(cursor, connection, menu_title, select_query):
-    while True:
-        print(f"\n{menu_title}")
-        print("1. 조회")
-        print("2. 추가")
-        print("3. 수정")
-        print("4. 삭제")
-        print("5. 이전 메뉴로 돌아가기")
-        choice = input("메뉴를 선택하세요: ")
+app = Flask(__name__)
 
-        if choice == '1':
-            # 조회
-            cursor.execute(select_query)
-            items = cursor.fetchall()
-            for item in items:
-                print(item)
-                break ; 
-                
-        elif choice == '2':
-        # 추가
-            if menu_title == "사용자 정보":
-                user_id = input("사용자 ID를 입력하세요: ")
-                password = input("비밀번호를 입력하세요: ")
-                name = input("이름을 입력하세요: ")
-                age = int(input("나이를 입력하세요: "))
-                gender = int(input("성별을 입력하세요 (남자: 0, 여자: 1): "))
-                email = input("이메일을 입력하세요: ")
+# 데이터베이스 연결 정보 설정
+db_config = pymysql.connect {
+    'host': 'localhost',
+    'user': 'root',
+    'password': '0000',
+    'database': 'daedongbap_map',
+    'charset': 'utf8mb4',
+    'cursorclass': pymysql.cursors.DictCursor
+}
 
-                # 데이터베이스에 추가
+# 데이터베이스에 연결하는 함수
+def connect_db():
+    return pymysql.connect(
+        host=db_config['host'],
+        user=db_config['user'],
+        password=db_config['password'],
+        database=db_config['database'],
+        charset=db_config['charset'],
+        cursorclass=db_config['cursorclass']
+    )
+
+# 메뉴 접근 함수
+# 이거는 지금 필요없는 내용이라 잠시 치워둠.
+
+
+# 주소 (임의) 지정
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+# 회원가입 라우트
+@app.route('/add_user', methods=['POST'])
+def add_user():
+    data = request.json
+    connection = connect_db()
+    try:
+        with connection.cursor() as cursor:
+            if 'user_id' in data and 'password' in data and 'name' in data and 'age' in data and 'gender' in data and 'email' in data:
+                user_id = data['user_id']
+                password = data['password']
+                name = data['name']
+                age = data['age']
+                gender = data['gender']
+                email = data['email']
+
                 insert_query = """
                 INSERT INTO user (user_id, password, name, age, gender, email)
                 VALUES (%s, %s, %s, %s, %s, %s)
                 """
-                user_data = (user_id, password, name, age, gender, email)
-                cursor.execute(insert_query, user_data)
+                cursor.execute(insert_query, (user_id, password, name, age, gender, email))
                 connection.commit()
-                print("사용자 정보가 추가되었습니다.")
-                break ; 
-            elif menu_title == "피드 정보":
-                # 추가 예정.
-                pass
-        
-        elif choice == '3':
-            # 수정할 사용자 ID 입력
-            user_id = input("수정할 사용자 ID를 입력하세요: ")
-            
-            # 수정할 필드 선택
-            print("수정할 필드를 선택하세요:")
-            print("1. 비밀번호")
-            print("2. 이름")
-            print("3. 나이")
-            print("4. 성별")
-            print("5. 이메일")
-            field_choice = input("선택 (1-5): ")
-
-            # 새 값 입력
-            new_value = input("새 값을 입력하세요: ")
-
-            # 필드에 따른 쿼리와 값 설정
-            if field_choice == '1':
-                update_query = "UPDATE user SET password = %s WHERE user_id = %s"
-            elif field_choice == '2':
-                update_query = "UPDATE user SET name = %s WHERE user_id = %s"
-            elif field_choice == '3':
-                new_value = int(new_value)  # 나이는 정수로 변환
-                update_query = "UPDATE user SET age = %s WHERE user_id = %s"
-            elif field_choice == '4':
-                new_value = int(new_value)  # 성별은 정수로 변환
-                update_query = "UPDATE user SET gender = %s WHERE user_id = %s"
-            elif field_choice == '5':
-                update_query = "UPDATE user SET email = %s WHERE user_id = %s"
+                return jsonify({'message': '사용자 정보가 추가되었습니다.'}), 201
+                # 회원가입 성공!
             else:
-                print("잘못된 선택입니다.")
-                return
-
-            # 데이터베이스 업데이트
-            cursor.execute(update_query, (new_value, user_id))
-            connection.commit()
-            print("사용자 정보가 성공적으로 수정되었습니다.")
-        elif choice == '4':
-            # 삭제
-            pass
-        elif choice == '5':
-            print("이전 메뉴로 돌아갑니다.")
-            break
-        else:
-            print("올바른 메뉴를 선택하세요.")
-
-def main():
-    # 데이터베이스 연결 설정
-    connection = pymysql.connect(
-        host='localhost',
-        user='root',
-        password='0000',
-        database='daedongbap_map',
-        charset='utf8mb4',
-        cursorclass=pymysql.cursors.DictCursor
-    )
-    
-    connection = pymysql.connect(
-        host='localhost',          # MySQL 서버의 호스트 이름
-        user='root',               # MySQL 사용자 이름
-        password='0000',       # MySQL 사용자 비밀번호
-        database='daedongbap_map', # 연결할 데이터베이스 이름
-        charset='utf8mb4',         # 문자 집합 설정
-        cursorclass=pymysql.cursors.DictCursor # 결과를 딕셔너리 형태로 반환
-    )
-
-    try:
-        with connection.cursor() as cursor:
-            while True:
-                print("\n1. 사용자 정보 메뉴")
-                print("2. 피드 정보 메뉴")
-                print("3. 종료")
-                choice = input("메뉴를 선택하세요: ")
-
-                if choice == '1':
-                    access_menu(cursor, connection,"사용자 정보", "SELECT * FROM user")
-                elif choice == '2':
-                    access_menu(cursor, connection, "피드 정보", "SELECT * FROM feed")
-                elif choice == '3':
-                    print("프로그램을 종료합니다.")
-                    break
-                else:
-                    print("올바른 메뉴를 선택하세요.")
-
+                return jsonify({'message': '필요한 데이터가 부족합니다.'}), 400
+                # 회원가입을 위한 정보가 부족! 
     finally:
         connection.close()
 
-if __name__ == "__main__":
-    main()
+# 로그인 라우트
+@app.route('/login', methods=['POST'])
+def login():
+    data = request.json
+    connection = connect_db()
+    try:
+        with connection.cursor() as cursor:
+            if 'user_id' in data and 'password' in data:
+                user_id = data['user_id']
+                password = hashlib.sha256(data['password'].encode()).hexdigest()  # 비밀번호 해시 처리(보안)
+
+                select_query = "SELECT * FROM user WHERE user_id = %s AND password = %s"
+                cursor.execute(select_query, (user_id, password))
+                user = cursor.fetchone()
+
+                if user:
+                    return jsonify({'message': '로그인 성공', 'user': user}), 200
+                else:
+                    return jsonify({'message': '로그인 실패. 아이디 또는 비밀번호를 확인하세요.'}), 401
+            else:
+                return jsonify({'message': '아이디 혹은 비밀번호의 입력을 해주세요.'}), 400
+    finally:
+        connection.close()
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
