@@ -1,9 +1,8 @@
+from app import app
 from flask import Flask, request, jsonify, render_template, session
 import pymysql
 import hashlib
 import sys
-
-app = Flask(__name__)
 
 # 데이터베이스 연결 정보 설정
 db_config = {
@@ -112,9 +111,4 @@ def delete_user():
             connection.close()
 
 # 회원정보 수정 라우트
-
-    
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port = 5000, debug=True)
 
