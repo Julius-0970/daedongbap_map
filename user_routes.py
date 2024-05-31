@@ -29,11 +29,6 @@ def connect_db():
 # 이거는 지금 필요없는 내용이라 잠시 치워둠.
 
 
-# 주소 (임의) 지정
-@app.route('/')
-def index():
-    return render_template('index.html')
-
 # 회원가입 라우트
 @app.route('/add_user', methods=['POST'])
 def add_user():
