@@ -1,10 +1,12 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template, session
 import pymysql
+import hashlib
+import sys
 
 app = Flask(__name__)
 
 # 데이터베이스 연결 정보 설정
-db_config = pymysql.connect {
+db_config = {
     'host': 'localhost',
     'user': 'root',
     'password': '0000',
@@ -93,9 +95,6 @@ def logout():
         session.pop('user_id')
         return jsonify({'message': '로그아웃되었습니다.'}), 200
 
-if __name__ == '__main__':
-    app.run(debug=True)
-
 # 회원탈퇴 라우트
 @app.route('/delete_user', methods=['POST'])
 def delete_user():
@@ -112,8 +111,10 @@ def delete_user():
         finally:
             connection.close()
 
+# 회원정보 수정 라우트
+
     
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port = 5000, debug=True)
 
