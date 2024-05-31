@@ -61,7 +61,6 @@ CREATE TABLE `category` (
 
 LOCK TABLES `category` WRITE;
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
-INSERT INTO `category` VALUES (1,'한식');
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -96,7 +95,6 @@ CREATE TABLE `comment` (
 
 LOCK TABLES `comment` WRITE;
 /*!40000 ALTER TABLE `comment` DISABLE KEYS */;
-INSERT INTO `comment` VALUES ('asd234',NULL,'sdf80s9','yhr1435','이것은 댓글이다',0,'2024-05-17 15:34:05');
 /*!40000 ALTER TABLE `comment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -154,7 +152,6 @@ CREATE TABLE `feed` (
 
 LOCK TABLES `feed` WRITE;
 /*!40000 ALTER TABLE `feed` DISABLE KEYS */;
-INSERT INTO `feed` VALUES ('sdf80s9','yhr1435','소개','이 웹은 한국에서 ~asdasdasdasdasdasdasdas',10,'2024-05-17 15:30:12');
 /*!40000 ALTER TABLE `feed` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -212,7 +209,6 @@ CREATE TABLE `restaurant` (
 
 LOCK TABLES `restaurant` WRITE;
 /*!40000 ALTER TABLE `restaurant` DISABLE KEYS */;
-INSERT INTO `restaurant` VALUES ('RES123','밥집','서울특별시 어쩌구 저쩌구',1004,1,'2024-05-17 15:36:09');
 /*!40000 ALTER TABLE `restaurant` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -273,7 +269,6 @@ CREATE TABLE `review` (
 
 LOCK TABLES `review` WRITE;
 /*!40000 ALTER TABLE `review` DISABLE KEYS */;
-INSERT INTO `review` VALUES ('dr0dfgj','RES123','yhr1435','맛집이나 평범하다',11,4.5,'2024-05-18 09:17:58');
 /*!40000 ALTER TABLE `review` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -320,7 +315,9 @@ CREATE TABLE `user` (
   `gender` tinyint NOT NULL,
   `email` varchar(255) NOT NULL,
   `user_create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`user_id`)
+  PRIMARY KEY (`user_id`),
+  UNIQUE KEY `name` (`name`),
+  UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -330,7 +327,6 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES ('sjmdfs1','1111','익명',30,0,'sjdhnfs@sdf.com','2024-05-18 11:30:08'),('yhr1435','sdfsdfs','정희원',24,0,'yhr1435@gmail.com','2024-05-18 09:13:35');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -343,4 +339,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-05-28  1:59:28
+-- Dump completed on 2024-05-31 19:20:43
