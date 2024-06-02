@@ -28,7 +28,6 @@ def connect_db():
 # 메뉴 접근 함수
 # 이거는 지금 필요없는 내용이라 잠시 치워둠.
 
-
 # 회원가입 라우트
 @app.route('/add_user', methods=['POST'])
 def add_user():
@@ -82,12 +81,14 @@ def login():
     finally:
         connection.close()
 
-# 로그아웃 라우트
+# 로그아웃 라우트 / 필요없음.
 @app.route('/logout', methods=['POST'])
 def logout():
     if 'user_id' in session:
         session.pop('user_id')
         return jsonify({'message': '로그아웃되었습니다.'}), 200
+    else:
+        return jsonify({'message': '로그인된 사용자가 없습니다.'}), 400
 
 # 회원탈퇴 라우트
 @app.route('/delete_user', methods=['POST'])
@@ -104,6 +105,8 @@ def delete_user():
                 return jsonify({'message': '회원 탈퇴가 완료되었습니다.'}), 200
         finally:
             connection.close()
+    else:
+        return jsonify({'message': '로그인된 사용자가 없습니다.'}), 400
 
 # 회원정보 수정 라우트
 
