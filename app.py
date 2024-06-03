@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Blueprint, Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 import os
 
@@ -12,8 +12,12 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 # user_routes와 search_routes를 가져오기
-import user_routes
-import search_routes
+from user_routes import user_routes
+from search_routes import search_routes
+
+# 블루프린트 등록
+app.register_blueprint(user_routes)
+app.register_blueprint(search_routes)
 
 @app.route('/')
 def index():
