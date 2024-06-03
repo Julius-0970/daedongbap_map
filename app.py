@@ -5,7 +5,7 @@ import os
 app = Flask(__name__)
 
 # MySQL 데이터베이스 URI 설정
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URI', 'mysql+pymysql://username:password@localhost/db_name')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URI', 'mysql+pymysql://root:0000@localhost/daedongbap_map')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # SQLAlchemy 객체 생성
