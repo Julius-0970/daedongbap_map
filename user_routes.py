@@ -40,7 +40,7 @@ def add_user():
         with connection.cursor() as cursor:
             if 'user_id' in data and 'password' in data and 'name' in data and 'age' in data and 'gender' in data and 'email' in data:
                 user_id = data['user_id']
-                password = data['password']
+                password = hashlib.sha256(data['password'].encode()).hexdigest()  # 비밀번호 해시 처리(보안)
                 name = data['name']
                 age = data['age']
                 gender = data['gender']
@@ -76,6 +76,7 @@ def login():
                 user = cursor.fetchone()
 
                 if user:
+                    session['user_id'] = user['user_id']
                     return jsonify({'message': '로그인 성공', 'user': user}), 200
                 else:
                     return jsonify({'message': '로그인 실패. 아이디 또는 비밀번호를 확인하세요.'}), 401
@@ -104,7 +105,8 @@ def delete_user():
                 delete_query = "DELETE FROM user WHERE user_id = %s"
                 cursor.execute(delete_query, (user_id,))
                 connection.commit()
-
+                
+                session.pop('user_id')
                 return jsonify({'message': '회원 탈퇴가 완료되었습니다.'}), 200
         finally:
             connection.close()
