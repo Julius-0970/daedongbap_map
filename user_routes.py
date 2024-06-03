@@ -1,8 +1,11 @@
 from app import app
-from flask import Flask, request, jsonify, render_template, session
+from flask import Blueprint, Flask, request, jsonify, render_template, session
 import pymysql
 import hashlib
 import sys
+
+
+user_routes = Blueprint('user_routes', __name__)
 
 # 데이터베이스 연결 정보 설정
 db_config = {
@@ -29,7 +32,7 @@ def connect_db():
 # 이거는 지금 필요없는 내용이라 잠시 치워둠.
 
 # 회원가입 라우트
-@app.route('/add_user', methods=['POST'])
+@user_routes.route('/add_user', methods=['POST'])
 def add_user():
     data = request.json
     connection = connect_db()
@@ -58,7 +61,7 @@ def add_user():
         connection.close()
 
 # 로그인 라우트
-@app.route('/login', methods=['POST'])
+@user_routes.route('/login', methods=['POST'])
 def login():
     data = request.json
     connection = connect_db()
@@ -82,7 +85,7 @@ def login():
         connection.close()
 
 # 로그아웃 라우트 / 필요없음.
-@app.route('/logout', methods=['POST'])
+@user_routes.route('/logout', methods=['POST'])
 def logout():
     if 'user_id' in session:
         session.pop('user_id')
@@ -91,7 +94,7 @@ def logout():
         return jsonify({'message': '로그인된 사용자가 없습니다.'}), 400
 
 # 회원탈퇴 라우트
-@app.route('/delete_user', methods=['POST'])
+@user_routes.route('/delete_user', methods=['POST'])
 def delete_user():
     user_id = session.get('user_id')
     if user_id : # 로그인 상태에서만 회원탈퇴를 진행하기 위함.
