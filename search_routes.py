@@ -1,6 +1,9 @@
 from app import app
-from flask import Flask, request, jsonify, render_template, session
+from flask import Blueprint, Flask, request, jsonify, render_template, session
 import pymysql
+
+
+search_routes = Blueprint('search_routes', __name__)
 
 # 데이터베이스 연결 정보 설정
 def connect_db():
@@ -23,7 +26,7 @@ def connect_db():
     )
 
 
-@app.route('/search', methods=['POST'])
+@search_routes.route('/search', methods=['POST'])
 def search():
     data = request.json
     query = data.get('query')
