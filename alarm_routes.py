@@ -38,7 +38,8 @@ def create_alarm(receiver_id, message):
             existing_alarm = cursor.fetchone()
             
             if existing_alarm:
-                return  # 동일한 알람이 이미 존재하면 새 알람을 생성하지 않음
+                return
+            # 동일한 알람이 이미 존재하면 새 알람을 생성하지 않음
 
             # 알람 데이터를 데이터베이스에 삽입
             sql_insert = """
@@ -98,5 +99,5 @@ def delete_old_alarms():
 
 # 스케줄러 설정
 scheduler = BackgroundScheduler()
-scheduler.add_job(func=delete_old_alarms, trigger="interval", days=1)  # 매일 한 번 실행
+scheduler.add_job(func=delete_old_alarms, trigger="interval", weeks=1)  # 매일 한 번 실행
 scheduler.start()
