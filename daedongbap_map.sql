@@ -57,6 +57,11 @@ CREATE TABLE Comment (
     FOREIGN KEY (comment_writer_ID) REFERENCES User(User_ID)
 );
 
+CREATE TABLE Category (
+    Category_Number INT PRIMARY KEY,
+    Category_Name VARCHAR(40) NOT NULL
+);
+
 CREATE TABLE Restaurant (
     Restaurant_ID VARCHAR(255) PRIMARY KEY,
     Restaurant_Name VARCHAR(255) NOT NULL,
@@ -65,11 +70,6 @@ CREATE TABLE Restaurant (
     Category_Number INT,
     restaurant_upload_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     FOREIGN KEY (Category_Number) REFERENCES Category(Category_Number)
-);
-
-CREATE TABLE Category (
-    Category_Number INT PRIMARY KEY,
-    Category_Name VARCHAR(40) NOT NULL
 );
 
 CREATE TABLE Feed_Like (

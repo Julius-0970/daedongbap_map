@@ -73,7 +73,7 @@ def create_comment():
 # 댓글 수정하기
 @comment_routes.route('/comments/<comment_id>', methods=['PUT'])
 def update_comment(comment_id):
-    if 'user_id' not in session':
+    if 'user_id' not in session:
         return jsonify({'message': '로그인이 필요합니다.'}), 401
 
     data = request.json

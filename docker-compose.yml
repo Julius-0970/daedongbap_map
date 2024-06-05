@@ -4,10 +4,8 @@ services:
   db:
     image: mysql:8.0
     environment:
-      MYSQL_ROOT_PASSWORD: 0000
-      MYSQL_DATABASE: daedongbap_map
-      MYSQL_USER: root
-      MYSQL_PASSWORD: 0000
+      MYSQL_ROOT_PASSWORD: '0000'
+      MYSQL_DATABASE: 'daedongbap_map'
     ports:
       - "3306:3306"
     volumes:
