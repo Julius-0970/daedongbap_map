@@ -17,7 +17,7 @@ CREATE TABLE user (
     email VARCHAR(255) NOT NULL Unique,
     user_create_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
-# 비밀번호 업데이트를 위한 비밀번호 변경일을 추가할까 고민중...
+
 
 
 CREATE TABLE feed (
