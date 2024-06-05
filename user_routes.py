@@ -114,3 +114,168 @@ def delete_user():
         return jsonify({'message': '로그인된 사용자가 없습니다.'}), 400
 
 # 회원정보 수정 라우트
+
+# 유저 정보 업데이트
+@user_routes.route('/update_user', methods=['PUT'])
+def update_user():
+    user_id = session.get('user_id')
+    if not user_id:
+        return jsonify({'message': '로그인이 필요합니다.'}), 401
+
+    data = request.json
+    password = data.get('password')
+    name = data.get('name')
+    age = data.get('age')
+    gender = data.get('gender')
+    email = data.get('email')
+
+    updates = {}
+    if password:
+        updates['password'] = hashlib.sha256(password.encode()).hexdigest()
+    if name:
+        updates['name'] = name
+    if age:
+        updates['age'] = age
+    if gender:
+        updates['gender'] = gender
+    if email:
+        updates['email'] = email
+
+    if not updates:
+        return jsonify({'message': '업데이트할 필드를 입력해주세요.'}), 400
+
+    set_clause = ", ".join([f"{key} = %s" for key in updates.keys()])
+    values = list(updates.values())
+    values.append(user_id)
+
+    connection = connect_db()
+    try:
+        with connection.cursor() as cursor:
+            sql = f"UPDATE user SET {set_clause} WHERE user_id = %s"
+            cursor.execute(sql, values)
+            connection.commit()
+        return jsonify({'message': '유저 정보가 업데이트되었습니다.'}), 200
+    finally:
+        connection.close()
+
+# 여기서 부터는 내가 작성한 글. 좋아요 누른 글 가져오기
+
+# 유저가 작성한 피드글 가져오기
+@user_routes.route('/my_feeds', methods=['GET'])
+def get_my_feeds():
+    user_id = session.get('user_id')
+    if not user_id:
+        return jsonify({'message': '로그인이 필요합니다.'}), 401
+
+    connection = connect_db()
+    try:
+        with connection.cursor() as cursor:
+            sql = "SELECT * FROM feed WHERE feed_writer_id = %s ORDER BY feed_write_date DESC"
+            cursor.execute(sql, (user_id,))
+            feeds = cursor.fetchall()
+        return jsonify(feeds), 200
+    finally:
+        connection.close()
+
+# 유저가 작성한 댓글 가져오기
+@user_routes.route('/my_comments', methods=['GET'])
+def get_my_comments():
+    user_id = session.get('user_id')
+    if not user_id:
+        return jsonify({'message': '로그인이 필요합니다.'}), 401
+
+    connection = connect_db()
+    try:
+        with connection.cursor() as cursor:
+            sql = "SELECT * FROM comment WHERE comment_writer_ID = %s ORDER BY comment_write_date DESC"
+            cursor.execute(sql, (user_id,))
+            comments = cursor.fetchall()
+        return jsonify(comments), 200
+    finally:
+        connection.close()
+
+# 유저가 작성한 리뷰글 가져오기
+@user_routes.route('/my_reviews', methods=['GET'])
+def get_my_reviews():
+    user_id = session.get('user_id')
+    if not user_id:
+        return jsonify({'message': '로그인이 필요합니다.'}), 401
+
+    connection = connect_db()
+    try:
+        with connection.cursor() as cursor:
+            sql = "SELECT * FROM review WHERE review_writer_ID = %s ORDER BY review_write_date DESC"
+            cursor.execute(sql, (user_id,))
+            reviews = cursor.fetchall()
+        return jsonify(reviews), 200
+    finally:
+        connection.close()
+
+# 유저가 좋아요 누른 피드글 가져오기
+@user_routes.route('/liked_feeds', methods=['GET'])
+def get_liked_feeds():
+    user_id = session.get('user_id')
+    if not user_id:
+        return jsonify({'message': '로그인이 필요합니다.'}), 401
+
+    connection = connect_db()
+    try:
+        with connection.cursor() as cursor:
+            sql = """
+            SELECT f.*
+            FROM feed f
+            JOIN Feed_Like fl ON f.feed_id = fl.Feed_ID
+            WHERE fl.Liker_ID = %s
+            ORDER BY fl.Like_ID DESC
+            """
+            cursor.execute(sql, (user_id,))
+            liked_feeds = cursor.fetchall()
+        return jsonify(liked_feeds), 200
+    finally:
+        connection.close()
+
+# 유저가 좋아요 누른 댓글 가져오기
+@user_routes.route('/liked_comments', methods=['GET'])
+def get_liked_comments():
+    user_id = session.get('user_id')
+    if not user_id:
+        return jsonify({'message': '로그인이 필요합니다.'}), 401
+
+    connection = connect_db()
+    try:
+        with connection.cursor() as cursor:
+            sql = """
+            SELECT c.*
+            FROM comment c
+            JOIN Comment_Like cl ON c.Comment_ID = cl.Comment_ID
+            WHERE cl.Liker_ID = %s
+            ORDER BY cl.Like_ID DESC
+            """
+            cursor.execute(sql, (user_id,))
+            liked_comments = cursor.fetchall()
+        return jsonify(liked_comments), 200
+    finally:
+        connection.close()
+
+# 유저가 좋아요 누른 리뷰글 가져오기
+@user_routes.route('/liked_reviews', methods=['GET'])
+def get_liked_reviews():
+    user_id = session.get('user_id')
+    if not user_id:
+        return jsonify({'message': '로그인이 필요합니다.'}), 401
+
+    connection = connect_db()
+    try:
+        with connection.cursor() as cursor:
+            sql = """
+            SELECT r.*
+            FROM review r
+            JOIN Review_Like rl ON r.review_ID = rl.Review_ID
+            WHERE rl.Liker_ID = %s
+            ORDER BY rl.Like_ID DESC
+            """
+            cursor.execute(sql, (user_id,))
+            liked_reviews = cursor.fetchall()
+        return jsonify(liked_reviews), 200
+    finally:
+        connection.close()
