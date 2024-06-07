@@ -4,8 +4,8 @@ use  daedongbap_map ;
 #SET foreign_key_checks = 0; # 외래키 비활성화
 #SET foreign_key_checks = 1; # 외래키 활성화
 
-#select * from  ;
-#drop table  ; 
+#select * from  user ;
+#drop table Restaurant ; 
 #TRUNCATE TABLE  ;
 
 CREATE TABLE user (
@@ -44,7 +44,7 @@ CREATE TABLE review (
 );
 
 
-CREATE TABLE Comment (
+CREATE TABLE comment (
     Comment_ID VARCHAR(255) PRIMARY KEY,
     Parent_Comment_ID VARCHAR(255),
     feed_id VARCHAR(255) NOT NULL, 
@@ -52,56 +52,56 @@ CREATE TABLE Comment (
     comment_Text VARCHAR(5000) NOT NULL,
     comment_like_number INT NOT NULL,
     comment_write_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    FOREIGN KEY (Parent_Comment_ID) REFERENCES Comment(Comment_ID), 
-    FOREIGN KEY (Feed_id) REFERENCES Feed(feed_ID),
-    FOREIGN KEY (comment_writer_ID) REFERENCES User(User_ID)
+    FOREIGN KEY (Parent_Comment_ID) REFERENCES comment(Comment_ID), 
+    FOREIGN KEY (Feed_id) REFERENCES feed(feed_ID),
+    FOREIGN KEY (comment_writer_ID) REFERENCES user(User_ID)
 );
 
-CREATE TABLE Category (
+CREATE TABLE category (
     Category_Number INT PRIMARY KEY,
     Category_Name VARCHAR(40) NOT NULL
 );
 
-CREATE TABLE Restaurant (
+CREATE TABLE restaurant (
     Restaurant_ID VARCHAR(255) PRIMARY KEY,
     Restaurant_Name VARCHAR(255) NOT NULL,
     Restaurant_Address VARCHAR(255) NOT NULL,
     restaurant_like_number INT NOT NULL,
     Category_Number INT,
     restaurant_upload_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    FOREIGN KEY (Category_Number) REFERENCES Category(Category_Number)
+    FOREIGN KEY (Category_Number) REFERENCES category(Category_Number)
 );
 
 CREATE TABLE Feed_Like (
     Like_ID INT PRIMARY KEY AUTO_INCREMENT,
     Liker_ID VARCHAR(255) NOT NULL,
     Feed_ID VARCHAR(255) NOT NULL,
-    FOREIGN KEY (Liker_ID) REFERENCES User(User_ID),
-    FOREIGN KEY (Feed_ID) REFERENCES feed(feed_ID)
+    FOREIGN KEY (Liker_ID) REFERENCES user(user_ID),
+    FOREIGN KEY (feed_ID) REFERENCES feed(feed_ID)
 );
 
 CREATE TABLE Review_Like (
     Like_ID INT PRIMARY KEY AUTO_INCREMENT,
     Liker_ID VARCHAR(255) NOT NULL,
     Review_ID VARCHAR(255) NOT NULL,
-    FOREIGN KEY (Liker_ID) REFERENCES User(User_ID),
-    FOREIGN KEY (Review_ID) REFERENCES review(review_ID)
+    FOREIGN KEY (Liker_ID) REFERENCES user(user_ID),
+    FOREIGN KEY (review_ID) REFERENCES review(review_ID)
 );
 
 CREATE TABLE Restaurant_Like (
     Like_ID INT PRIMARY KEY AUTO_INCREMENT,
     Liker_ID VARCHAR(255) NOT NULL,
     Restaurant_ID VARCHAR(255) NOT NULL,
-    FOREIGN KEY (Liker_ID) REFERENCES User(User_ID),
-    FOREIGN KEY (Restaurant_ID) REFERENCES restaurant(restaurant_ID)
+    FOREIGN KEY (Liker_ID) REFERENCES user(user_ID),
+    FOREIGN KEY (restaurant_ID) REFERENCES restaurant(restaurant_ID)
 );
 
 CREATE TABLE Comment_Like (
     Like_ID INT PRIMARY KEY AUTO_INCREMENT,
     Liker_ID VARCHAR(255) NOT NULL,
     Comment_ID VARCHAR(255) NOT NULL,
-    FOREIGN KEY (Liker_ID) REFERENCES User(User_ID),
-    FOREIGN KEY (Comment_ID) REFERENCES comment(comment_ID)
+    FOREIGN KEY (Liker_ID) REFERENCES user(user_ID),
+    FOREIGN KEY (comment_ID) REFERENCES comment(comment_ID)
 );
 
 # 좋아요에 대한 알람, 댓글에 대한 알람으로 테이블을 세분화.
@@ -114,8 +114,8 @@ CREATE TABLE Alarm (
     Message VARCHAR(10000),
     Confirmation_Status BOOLEAN NOT NULL DEFAULT FALSE, -- 확인유무
     Transmission_Time TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, -- 전송시간
-    FOREIGN KEY (Receiver_ID) REFERENCES User(user_id),
-    FOREIGN KEY (Liker_ID) REFERENCES User(user_id)
+    FOREIGN KEY (Receiver_ID) REFERENCES user(user_id),
+    FOREIGN KEY (Liker_ID) REFERENCES user(user_id)
 );
 -- Item_ID, Item_Type으로 어느 게시판의, 어떤 글의 id인지 식별가능하게만 하는 용도. 
 -- 위의 내용들은 백엔드 코드문에서 다룰 것이기에 따로 외래키 지정x(지정하기도 힘듬)
