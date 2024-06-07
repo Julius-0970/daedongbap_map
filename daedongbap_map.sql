@@ -5,7 +5,7 @@ use  daedongbap_map ;
 #SET foreign_key_checks = 1; # 외래키 활성화
 
 #select * from  user ;
-#drop table Restaurant ; 
+drop table Category ; 
 #TRUNCATE TABLE  ;
 
 CREATE TABLE user (
