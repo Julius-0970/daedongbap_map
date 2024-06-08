@@ -23,15 +23,5 @@ services:
     environment:
       DATABASE_URI: mysql+pymysql://root:0000@db/daedongbap_map
 
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    environment:
-      PMA_HOST: db
-      MYSQL_ROOT_PASSWORD: 0000
-    ports:
-      - "8000:80"
-    depends_on:
-      - db
-
 volumes:
   db_data:
