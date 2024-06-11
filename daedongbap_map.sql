@@ -5,7 +5,7 @@ use  daedongbap_map ;
 #SET foreign_key_checks = 1; # 외래키 활성화
 
 #select * from  user ;
-drop table Category ; 
+#drop table Category ; 
 #TRUNCATE TABLE  ;
 
 CREATE TABLE user (
@@ -18,6 +18,12 @@ CREATE TABLE user (
     user_create_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
+INSERT INTO user (user_id, password, name, age, gender, email) 
+VALUES ('user1', 'password1', 'Alice', 30, 1, 'alice@example.com'),
+('user2', 'password2', 'Bob', 25, 0, 'bob@example.com'),
+('user3', 'password3', 'Charlie', 28, 1, 'charlie@example.com'),
+('user4', 'password4', 'David', 22, 0, 'david@example.com'),
+('user5', 'password5', 'Eve', 35, 1, 'eve@example.com');
 
 
 CREATE TABLE feed (
