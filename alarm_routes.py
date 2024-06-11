@@ -2,20 +2,25 @@ from flask import Blueprint, request, jsonify, session
 import pymysql
 from datetime import datetime, timedelta
 from apscheduler.schedulers.background import BackgroundScheduler
+from dotenv import load_dotenv
+
+# .env 파일의 환경 변수를 읽어들입니다.
+load_dotenv()
 
 # 블루프린트 생성
 alarm_routes = Blueprint('alarm_routes', __name__)
 
-# 데이터베이스 연결 설정 함수
+db_config = {
+    'host': os.getenv('DATABASE_HOST'),
+    'user': os.getenv('DATABASE_USER'),
+    'password': os.getenv('DATABASE_PASSWORD'),
+    'database': os.getenv('DATABASE_NAME'),
+    'charset': 'utf8mb4',
+    'cursorclass': pymysql.cursors.DictCursor
+}
+
+# 데이터베이스에 연결하는 함수
 def connect_db():
-    db_config = {
-        'host': 'localhost',
-        'user': 'root',
-        'password': '0000',
-        'database': 'daedongbap_map',
-        'charset': 'utf8mb4',
-        'cursorclass': pymysql.cursors.DictCursor
-    }
     return pymysql.connect(
         host=db_config['host'],
         user=db_config['user'],

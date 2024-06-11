@@ -1,21 +1,24 @@
 from app import app
 from flask import Blueprint, Flask, request, jsonify, render_template, session
 import pymysql
+from dotenv import load_dotenv
 
+# .env 파일의 환경 변수를 읽어들입니다.
+load_dotenv()
 
 search_routes = Blueprint('search_routes', __name__)
 
-# 데이터베이스 연결 정보 설정
-def connect_db():
-    db_config = {
-        'host': 'localhost',
-        'user': 'root',
-        'password': '0000',
-        'database': 'daedongbap_map',
-        'charset': 'utf8mb4',
-        'cursorclass': pymysql.cursors.DictCursor
-    }
+db_config = {
+    'host': os.getenv('DATABASE_HOST'),
+    'user': os.getenv('DATABASE_USER'),
+    'password': os.getenv('DATABASE_PASSWORD'),
+    'database': os.getenv('DATABASE_NAME'),
+    'charset': 'utf8mb4',
+    'cursorclass': pymysql.cursors.DictCursor
+}
 
+# 데이터베이스에 연결하는 함수
+def connect_db():
     return pymysql.connect(
         host=db_config['host'],
         user=db_config['user'],
@@ -24,8 +27,6 @@ def connect_db():
         charset=db_config['charset'],
         cursorclass=db_config['cursorclass']
     )
-
-
 @search_routes.route('/search', methods=['POST'])
 def search():
     data = request.json

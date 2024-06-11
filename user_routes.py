@@ -3,16 +3,18 @@ from flask import Blueprint, Flask, request, jsonify, render_template, session
 import pymysql
 import hashlib
 import sys
+from dotenv import load_dotenv
 
+# .env 파일의 환경 변수를 읽어들입니다.
+load_dotenv()
 
 user_routes = Blueprint('user_routes', __name__)
 
-# 데이터베이스 연결 정보 설정
 db_config = {
-    'host': 'localhost',
-    'user': 'root',
-    'password': '0000',
-    'database': 'daedongbap_map',
+    'host': os.getenv('DATABASE_HOST'),
+    'user': os.getenv('DATABASE_USER'),
+    'password': os.getenv('DATABASE_PASSWORD'),
+    'database': os.getenv('DATABASE_NAME'),
     'charset': 'utf8mb4',
     'cursorclass': pymysql.cursors.DictCursor
 }
@@ -27,7 +29,6 @@ def connect_db():
         charset=db_config['charset'],
         cursorclass=db_config['cursorclass']
     )
-
 # 메뉴 접근 함수
 # 이거는 지금 필요없는 내용이라 잠시 치워둠.
 

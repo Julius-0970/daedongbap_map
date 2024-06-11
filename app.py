@@ -1,6 +1,10 @@
 from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 import os
+from dotenv import load_dotenv
+
+# .env 파일의 환경 변수를 읽어들입니다.
+load_dotenv()
 
 # Flask 애플리케이션 초기화
 app = Flask(__name__)
