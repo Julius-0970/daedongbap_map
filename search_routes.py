@@ -2,6 +2,7 @@ from app import app
 from flask import Blueprint, Flask, request, jsonify, render_template, session
 import pymysql
 from dotenv import load_dotenv
+import os  # os 모듈 임포트
 
 # .env 파일의 환경 변수를 읽어들입니다.
 load_dotenv()

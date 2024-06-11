@@ -4,6 +4,7 @@ import pymysql
 import hashlib
 import sys
 from dotenv import load_dotenv
+import os  # os 모듈 임포트
 
 # .env 파일의 환경 변수를 읽어들입니다.
 load_dotenv()

@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify, session
 import pymysql
 from datetime import datetime, timedelta
 from apscheduler.schedulers.background import BackgroundScheduler
+import os  # os 모듈 임포트
 from dotenv import load_dotenv
 
 # .env 파일의 환경 변수를 읽어들입니다.
