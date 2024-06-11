@@ -5,11 +5,11 @@ services:
     image: mysql:8.0
     environment:
       MYSQL_ROOT_PASSWORD: 0000
-      MYSQL_DATABASE: daedongbap_map
-      MYSQL_USER: root
-      MYSQL_PASSWORD: 0000
+      MYSQL_DATABASE: your_daedongbap_map
+      MYSQL_USER: heewon
+      MYSQL_PASSWORD: 1111
     ports:
-      - "3306:3306"
+      - "3307:3306"  # 호스트의 포트 3307을 컨테이너의 포트 3306에 매핑
     volumes:
       - db_data:/var/lib/mysql
       - ./daedongbap_map.sql:/docker-entrypoint-initdb.d/daedongbap_map.sql
@@ -21,7 +21,11 @@ services:
     depends_on:
       - db
     environment:
-      DATABASE_URI: mysql+pymysql://root:0000@db/daedongbap_map
+      DATABASE_HOST: db
+      DATABASE_PORT: 3306
+      DATABASE_USER: heewon
+      DATABASE_PASSWORD: 1111
+      DATABASE_DB: your_daedongbap_map
 
 volumes:
   db_data:
