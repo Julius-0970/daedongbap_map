@@ -36,20 +36,6 @@ CREATE TABLE feed (
     FOREIGN KEY (feed_writer_id) REFERENCES user(user_id)
 );
 
-
-CREATE TABLE review (
-    review_ID VARCHAR(255) PRIMARY KEY,
-    restaurant_id VARCHAR(255) NOT NULL,
-    review_writer_ID VARCHAR(255) NOT NULL,
-    review_content VARCHAR(10000) NOT NULL,
-    review_like_number INT NOT NULL,
-    rating TINYINT NOT NULL, 
-	review_write_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    FOREIGN KEY (review_writer_ID) REFERENCES user(user_id),
-    FOREIGN KEY (restaurant_id) REFERENCES Restaurant(restaurant_id)
-);
-
-
 CREATE TABLE comment (
     Comment_ID VARCHAR(255) PRIMARY KEY,
     Parent_Comment_ID VARCHAR(255),
@@ -77,6 +63,19 @@ CREATE TABLE restaurant (
     restaurant_upload_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     FOREIGN KEY (Category_Number) REFERENCES category(Category_Number)
 );
+
+CREATE TABLE review (
+    review_ID VARCHAR(255) PRIMARY KEY,
+    restaurant_id VARCHAR(255) NOT NULL,
+    review_writer_ID VARCHAR(255) NOT NULL,
+    review_content VARCHAR(10000) NOT NULL,
+    review_like_number INT NOT NULL,
+    rating TINYINT NOT NULL, 
+	review_write_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    FOREIGN KEY (review_writer_ID) REFERENCES user(user_id),
+    FOREIGN KEY (restaurant_id) REFERENCES restaurant(restaurant_id)
+);
+
 
 CREATE TABLE Feed_Like (
     Like_ID INT PRIMARY KEY AUTO_INCREMENT,
