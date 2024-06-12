@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template, session
+from flask import blueprint, Flask, request, jsonify, render_template, session
 import pymysql
 import hashlib
 import sys
