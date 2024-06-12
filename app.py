@@ -8,8 +8,8 @@ app.secret_key = os.getenv('SECRET_KEY', 'hw0212321')  # 비밀번호
 
 # MySQL 데이터베이스 URI 설정
 app.config['SQLALCHEMY_DATABASE_URI'] = (
-    f"mysql+pymysql://{os.getenv('DATABASE_HOST')}:{os.getenv('DATABASE_PASSWORD')}"
-    f"@{os.getenv('DATABASE_HOST')}:{os.getenv('DATABASE_PORT')}/{os.getenv('DATABASE_DB')}"
+    f"mysql+pymysql://{os.getenv('DATABASE_HOST')}:{os.getenv('DATABASE_PORT')}"
+    f"@{os.getenv('DATABASE_USER')}:{os.getenv('DATABASE_PASSWORD')}/{os.getenv('DATABASE_DB')}"
 )
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
