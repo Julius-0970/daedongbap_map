@@ -59,7 +59,7 @@ def add_user():
     finally:
         connection.close()
 
-# 로그인 라우트
+#로그인 라우트 
 @user_routes.route('/login', methods=['POST'])
 def login():
     data = request.json
@@ -70,17 +70,19 @@ def login():
                 user_id = data['user_id']
                 password = hashlib.sha256(data['password'].encode()).hexdigest()  # 비밀번호 해시 처리(보안)
 
-                select_query = "SELECT * FROM user WHERE user_id = %s AND password = %s"
-                cursor.execute(select_query, (user_id, password))
+                select_query = "SELECT * FROM user WHERE user_id = %s"
+                cursor.execute(select_query, (user_id,))
                 user = cursor.fetchone()
 
-                if user:
+                if user and user['password'] == password:  
                     session['user_id'] = user['user_id']
                     return jsonify({'message': '로그인 성공', 'user': user}), 200
                 else:
                     return jsonify({'message': '로그인 실패. 아이디 또는 비밀번호를 확인하세요.'}), 401
             else:
                 return jsonify({'message': '아이디 혹은 비밀번호의 입력을 해주세요.'}), 400
+    except Exception as e:
+        return jsonify({'message': '오류가 발생했습니다: {}'.format(str(e))}), 500
     finally:
         connection.close()
 
