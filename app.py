@@ -1,5 +1,5 @@
 import logging
-from flask import blueprint, Flask, render_template
+from flask import Blueprint, Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 import os
 
