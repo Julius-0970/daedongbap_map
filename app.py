@@ -11,9 +11,11 @@ app = Flask(__name__)
 app.secret_key = 'daedongbap_map' # 비밀번호 
 
 # MySQL 데이터베이스 URI 설정
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URI', 'mysql+pymysql://root:0000@localhost/daedongbap_map')
+app.config['SQLALCHEMY_DATABASE_URI'] = (
+    f"mysql+pymysql://{os.getenv('DATABASE_USER')}:{os.getenv('DATABASE_PASSWORD')}"
+    f"@{os.getenv('DATABASE_HOST')}:{os.getenv('DATABASE_PORT')}/{os.getenv('DATABASE_DB')}"
+)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
 # SQLAlchemy 객체 생성
 db = SQLAlchemy(app)
 
