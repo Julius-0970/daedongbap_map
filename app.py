@@ -17,8 +17,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 from user_routes import user_routes
-
-from comment_routes import comment_routes
+#from comment_routes import comment_routes
 #from feed_routes import feed_routes
 #from like_routes import like_routes
 #from restaurant_routes import restaurant_routes
