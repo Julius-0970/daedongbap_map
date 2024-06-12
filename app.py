@@ -16,6 +16,14 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # SQLAlchemy 객체 생성
 db = SQLAlchemy(app)
 
+# 로그 설정
+logging.basicConfig(level=logging.INFO)
+
+@app.before_request
+def before_request():
+    logging.info(f"Database URL: {app.config['SQLALCHEMY_DATABASE_URI']}")
+    
+
 from user_routes import user_routes
 #from comment_routes import comment_routes
 #from feed_routes import feed_routes
