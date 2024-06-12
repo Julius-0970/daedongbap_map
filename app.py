@@ -10,26 +10,28 @@ app.secret_key = os.getenv('SECRET_KEY', 'hw0212321')  # 비밀번호
 app.config['SQLALCHEMY_DATABASE_URI'] = (
     f"mysql+pymysql://{os.getenv('DATABASE_USER')}:{os.getenv('DATABASE_PASSWORD')}"
     f"@{os.getenv('DATABASE_HOST')}:{os.getenv('DATABASE_PORT')}/{os.getenv('DATABASE_DB')}"
+)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # SQLAlchemy 객체 생성
 db = SQLAlchemy(app)
 
 from user_routes import user_routes
+
 from comment_routes import comment_routes
-from feed_routes import feed_routes
-from like_routes import like_routes
-from restaurant_routes import restaurant_routes
-from search_routes import search_routes
-from alarm_routes import alarm_routes
+#from feed_routes import feed_routes
+#from like_routes import like_routes
+#from restaurant_routes import restaurant_routes
+#from search_routes import search_routes
+#from alarm_routes import alarm_routes
 
 app.register_blueprint(user_routes)
-app.register_blueprint(comment_routes)
-app.register_blueprint(feed_routes)
-app.register_blueprint(like_routes)
-app.register_blueprint(restaurant_routes)
-app.register_blueprint(search_routes)
-app.register_blueprint(alarm_routes)
+#app.register_blueprint(comment_routes)
+#app.register_blueprint(feed_routes)
+#app.register_blueprint(like_routes)
+#app.register_blueprint(restaurant_routes)
+#app.register_blueprint(search_routes)
+#app.register_blueprint(alarm_routes)
 
 
 @app.route('/')
