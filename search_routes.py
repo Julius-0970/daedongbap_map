@@ -1,4 +1,3 @@
-from app import app
 from flask import Blueprint, Flask, request, jsonify, render_template, session
 import pymysql
 from dotenv import load_dotenv
