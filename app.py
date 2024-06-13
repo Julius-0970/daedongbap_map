@@ -27,16 +27,16 @@ def before_request():
 
 from user_routes import user_routes
 from comment_routes import comment_routes
-#from feed_routes import feed_routes
-#from like_routes import like_routes
+from feed_routes import feed_routes
+from like_routes import like_routes
 #from restaurant_routes import restaurant_routes
 #from search_routes import search_routes
 #from alarm_routes import alarm_routes
 
 app.register_blueprint(user_routes)
 app.register_blueprint(comment_routes)
-#app.register_blueprint(feed_routes)
-#app.register_blueprint(like_routes)
+app.register_blueprint(feed_routes)
+app.register_blueprint(like_routes)
 #app.register_blueprint(restaurant_routes)
 #app.register_blueprint(search_routes)
 #app.register_blueprint(alarm_routes)
