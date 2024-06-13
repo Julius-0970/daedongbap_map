@@ -1,16 +1,13 @@
-from flask import Blueprint, request, jsonify, session
+from flask import Blueprint, Flask, request, jsonify, session
 import pymysql
 import uuid
-from dotenv import load_dotenv
 import os  # os 모듈 임포트
-
-# .env 파일의 환경 변수를 읽어들입니다.
-load_dotenv()
 
 restaurant_routes = Blueprint('restaurant_routes', __name__)
 
 db_config = {
     'host': os.getenv('DATABASE_HOST'),
+    'port': int(os.getenv('DATABASE_PORT')),
     'user': os.getenv('DATABASE_USER'),
     'password': os.getenv('DATABASE_PASSWORD'),
     'database': os.getenv('DATABASE_NAME'),
@@ -22,6 +19,7 @@ db_config = {
 def connect_db():
     return pymysql.connect(
         host=db_config['host'],
+        port=db_config['port'],
         user=db_config['user'],
         password=db_config['password'],
         database=db_config['database'],
