@@ -27,8 +27,6 @@ def connect_db():
         charset=db_config['charset'],
         cursorclass=db_config['cursorclass']
     )
-# 메뉴 접근 함수
-# 이거는 지금 필요없는 내용이라 잠시 치워둠.
 
 # 회원가입 라우트
 @user_routes.route('/add_user', methods=['POST'])
