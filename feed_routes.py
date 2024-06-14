@@ -1,4 +1,4 @@
-from flask import Blueprint, Flask, request, jsonify, session
+from flask import Blueprint, Flask, request, jsonify, render_template, session
 import pymysql
 import uuid
 import os  # os 모듈 임포트
@@ -20,7 +20,7 @@ db_config = {
 def connect_db():
     return pymysql.connect(
         host=db_config['host'],
-         port=db_config['port'],
+        port=db_config['port'],
         user=db_config['user'],
         password=db_config['password'],
         database=db_config['database'],
