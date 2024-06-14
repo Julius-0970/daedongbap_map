@@ -60,6 +60,9 @@ def add_user():
 #로그인 라우트 
 @user_routes.route('/login', methods=['POST'])
 def login():
+    if 'user_id' in session:
+        return jsonify({'message': '이미 로그인되어 있습니다.'}), 200
+        
     data = request.json
     connection = connect_db()
     try:
