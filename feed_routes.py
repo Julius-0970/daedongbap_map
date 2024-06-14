@@ -11,7 +11,7 @@ db_config = {
     'port': int(os.getenv('DATABASE_PORT')),
     'user': os.getenv('DATABASE_USER'),
     'password': os.getenv('DATABASE_PASSWORD'),
-    'database': os.getenv('DATABASE_NAME'),
+    'database': os.getenv('DATABASE_DB'),
     'charset': 'utf8mb4',
     'cursorclass': pymysql.cursors.DictCursor
 }
