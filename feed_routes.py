@@ -49,7 +49,7 @@ def get_feeds():
         connection.close()
 
 # 특정 피드 상세 정보 가져오기
-@feed_routes.route('/feeds/<feed_id>', methods=['GET'])
+@feed_routes.route('/feeds/search', methods=['GET'])
 def get_feed_detail(feed_id):
     connection = connect_db()
     try:
@@ -101,7 +101,7 @@ def create_feed():
         connection.close()
 
 # 피드 수정하기
-@feed_routes.route('/feeds/<feed_id>', methods=['PUT'])
+@feed_routes.route('/feeds/update', methods=['PUT'])
 def update_feed(feed_id):
     if 'user_id' not in session:
         return jsonify({'message': '로그인이 필요합니다.'}), 401
@@ -126,7 +126,7 @@ def update_feed(feed_id):
         connection.close()
 
 # 피드 삭제하기
-@feed_routes.route('/feeds/<feed_id>', methods=['DELETE'])
+@feed_routes.route('/feeds/delete', methods=['DELETE'])
 def delete_feed(feed_id):
     if 'user_id' not in session:
         return jsonify({'message': '로그인이 필요합니다.'}), 401
